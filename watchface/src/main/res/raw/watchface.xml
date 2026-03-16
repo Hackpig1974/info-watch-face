@@ -1,0 +1,140 @@
+<WatchFace
+    height="450"
+    width="450">
+    <Metadata
+        key="CLOCK_TYPE"
+        value="DIGITAL" />
+    <Scene>
+
+        <!-- Time -->
+        <DigitalClock height="450" width="450" x="0" y="0">
+            <TimeText format="hh:mm" height="100" width="450" x="0" y="100">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" />
+            </TimeText>
+            <TimeText alpha="0" format="hh:mm" height="100" width="450" x="0" y="100">
+                <Variant mode="AMBIENT" target="alpha" value="255" />
+                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" weight="THIN" />
+            </TimeText>
+        </DigitalClock>
+
+        <!-- Date -->
+        <PartText height="24" width="450" x="0" y="198">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text>
+                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="16">
+                    <Template>%s %s
+                        <Parameter expression="[MONTH_S]" />
+                        <Parameter expression="[DAY]" />
+                    </Template>
+                </Font>
+            </Text>
+        </PartText>
+
+
+        <!-- S label -->
+        <PartText height="22" width="30" x="45" y="232">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>S</Template></Font></Text>
+        </PartText>
+        <!-- S bar track -->
+        <PartDraw height="8" width="260" x="80" y="239">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="8" width="260" x="0" y="0">
+                <Fill color="#ff333333" />
+            </Rectangle>
+        </PartDraw>
+        <!-- S bar fill 65% -->
+        <PartDraw height="8" width="169" x="80" y="239">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="8" width="169" x="0" y="0">
+                <Fill color="#ff4ade80" />
+            </Rectangle>
+        </PartDraw>
+        <!-- S value -->
+        <PartText height="22" width="50" x="345" y="232">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13"><Template>65</Template></Font></Text>
+        </PartText>
+
+        <!-- W label -->
+        <PartText height="22" width="30" x="45" y="259">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>W</Template></Font></Text>
+        </PartText>
+        <!-- W bar track -->
+        <PartDraw height="8" width="260" x="80" y="266">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="8" width="260" x="0" y="0">
+                <Fill color="#ff333333" />
+            </Rectangle>
+        </PartDraw>
+        <!-- W bar fill 33% -->
+        <PartDraw height="8" width="86" x="80" y="266">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="8" width="86" x="0" y="0">
+                <Fill color="#ff60a5fa" />
+            </Rectangle>
+        </PartDraw>
+        <!-- W value -->
+        <PartText height="22" width="50" x="345" y="259">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13"><Template>33</Template></Font></Text>
+        </PartText>
+
+
+        <!-- RUST -->
+        <PartText height="15" width="120" x="75" y="300">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="10"><Template>RUST</Template></Font></Text>
+        </PartText>
+        <PartText height="26" width="120" x="75" y="314">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="22"><Template>1</Template></Font></Text>
+        </PartText>
+
+        <!-- MINECRAFT -->
+        <PartText height="15" width="160" x="230" y="300">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="10"><Template>MINECRAFT</Template></Font></Text>
+        </PartText>
+        <PartText height="26" width="160" x="230" y="314">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="22"><Template>1</Template></Font></Text>
+        </PartText>
+
+        <!-- Battery icon body outline - bottom center -->
+        <PartDraw height="14" width="26" x="198" y="370">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="14" width="26" x="0" y="0">
+                <Stroke color="#ff888888" thickness="2" />
+            </Rectangle>
+        </PartDraw>
+        <!-- Battery nub -->
+        <PartDraw height="6" width="4" x="224" y="374">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="6" width="4" x="0" y="0">
+                <Fill color="#ff888888" />
+            </Rectangle>
+        </PartDraw>
+        <!-- Battery fill hardcoded ~50% -->
+        <PartDraw height="10" width="11" x="200" y="372">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="10" width="11" x="0" y="0">
+                <Fill color="#ff888888" />
+            </Rectangle>
+        </PartDraw>
+        <!-- Battery percent -->
+        <PartText height="20" width="60" x="232" y="370">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text>
+                <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="16">
+                    <Template>%d
+                        <Parameter expression="round(battery.percent_charged)" />
+                    </Template>
+                </Font>
+            </Text>
+        </PartText>
+
+    </Scene>
+</WatchFace>
