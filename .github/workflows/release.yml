@@ -34,11 +34,10 @@ jobs:
 
       - name: Build release APKs
         run: ./gradlew :phone:assembleRelease :wear:assembleRelease :watchface:assembleRelease
-        env:
-          RELEASE_STORE_FILE: ../release.keystore
-          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
-          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+          -PRELEASE_STORE_FILE=../release.keystore
+          -PRELEASE_STORE_PASSWORD=${{ secrets.RELEASE_STORE_PASSWORD }}
+          -PRELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}
+          -PRELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}
 
       - name: Rename APKs
         run: |
