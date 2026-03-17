@@ -24,10 +24,6 @@
             android:exported="false" />
 
         <service
-            android:name=".PollWorker"
-            android:exported="false" />
-
-        <service
             android:name=".SessionComplicationService"
             android:exported="true"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
