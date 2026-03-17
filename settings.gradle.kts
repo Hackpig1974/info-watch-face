@@ -24,3 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Info Watch Face"
 include(":watchface")
+include(":phone")
+include(":wear")

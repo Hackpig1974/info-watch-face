@@ -1,0 +1,7 @@
+com.damon1974.infowatchface.phone-pngs-0 C:\claude\watch-app\phone\build\generated\res\pngs\debug
+com.damon1974.infowatchface.phone-updated_navigation_xml-1 C:\claude\watch-app\phone\build\generated\updated_navigation_xml\debug
+com.damon1974.infowatchface.phone-packageDebugResources-2 C:\claude\watch-app\phone\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.damon1974.infowatchface.phone-packageDebugResources-3 C:\claude\watch-app\phone\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.damon1974.infowatchface.phone-debug-4 C:\claude\watch-app\phone\build\intermediates\merged_res\debug\mergeDebugResources
+com.damon1974.infowatchface.phone-debug-5 C:\claude\watch-app\phone\src\debug\res
+com.damon1974.infowatchface.phone-main-6 C:\claude\watch-app\phone\src\main\res

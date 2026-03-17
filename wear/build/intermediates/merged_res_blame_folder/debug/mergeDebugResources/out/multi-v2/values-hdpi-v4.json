@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.damon1974.infowatchface.wear-mergeDebugResources-26:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ddowning\\.gradle\\caches\\9.3.1\\transforms\\1992244ccabcde31908d076266d52c03\\workspace\\transformed\\appcompat-1.1.0\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

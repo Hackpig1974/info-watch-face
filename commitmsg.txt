@@ -1,0 +1,12 @@
+Add live data: Claude usage bars, Minecraft/Rust player counts, battery
+
+- Data Layer working (phone → watch) via MessageClient + DataClient
+- ClaudePoller: fetches session% and weekly% from claude.ai API
+- MinecraftPoller: SLP protocol query to mcj.thehackpig.com:25565
+- RustPoller: A2S protocol with challenge-response to rust.thehackpig.com:28017
+- Wear complication services: Session, Weekly, Minecraft, Rust
+- WFF watchface: BATTERY_PERCENT native data source with green fill bar
+- Time format toggle: 12h (AM/PM) and 24h via ListConfiguration
+- Battery, date, RUST/MC labels all positioned and sized
+- watchface applicationId=com.damon1974.infowatchface.face
+- phone+wear applicationId=com.damon1974.infowatchface (Data Layer requirement)

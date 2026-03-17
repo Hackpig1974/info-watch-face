@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.infowatchface"
+    namespace = "com.damon1974.infowatchface.face"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.infowatchface"
+        applicationId = "com.damon1974.infowatchface.face"
         minSdk = 33
         targetSdk = 36
         versionCode = 1

@@ -1,0 +1,14 @@
+R_DEF: Internal format may change without notice
+local
+id btnDone
+id btnLogin
+id btnLogout
+id btnRefresh
+id tvSession
+id tvStatus
+id tvWeekly
+id webView
+layout activity_login
+layout activity_main
+string app_name
+style Theme.InfoWatchFace

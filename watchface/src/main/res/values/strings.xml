@@ -1,4 +1,7 @@
 <resources>
     <string name="watch_face_name">Info Watch Face</string>
     <string name="greeting">Hello, world!</string>
+    <string name="time_format_label">Time Format</string>
+    <string name="time_format_12h">12h (AM/PM)</string>
+    <string name="time_format_24h">24h (Military)</string>
 </resources>

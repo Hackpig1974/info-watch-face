@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.damon1974.infowatchface.wear-mergeDebugResources-26:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ddowning\\.gradle\\caches\\9.3.1\\transforms\\1992244ccabcde31908d076266d52c03\\workspace\\transformed\\appcompat-1.1.0\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

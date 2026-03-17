@@ -4,25 +4,57 @@
     <Metadata
         key="CLOCK_TYPE"
         value="DIGITAL" />
+    <UserConfigurations>
+        <ListConfiguration id="timeFormat" displayName="@string/time_format_label" defaultValue="0" screenReaderText="@string/time_format_label">
+            <ListOption id="0" displayName="@string/time_format_12h" screenReaderText="@string/time_format_12h" />
+            <ListOption id="1" displayName="@string/time_format_24h" screenReaderText="@string/time_format_24h" />
+        </ListConfiguration>
+    </UserConfigurations>
     <Scene>
 
         <!-- Time -->
-        <DigitalClock height="450" width="450" x="0" y="0">
-            <TimeText format="hh:mm" height="100" width="450" x="0" y="100">
-                <Variant mode="AMBIENT" target="alpha" value="0" />
-                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" />
-            </TimeText>
-            <TimeText alpha="0" format="hh:mm" height="100" width="450" x="0" y="100">
-                <Variant mode="AMBIENT" target="alpha" value="255" />
-                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" weight="THIN" />
-            </TimeText>
-        </DigitalClock>
+        <ListConfiguration id="timeFormat">
+            <ListOption id="0">
+                <!-- 12h mode -->
+                <DigitalClock x="0" y="75" width="450" height="100">
+                    <TimeText x="0" y="0" width="450" height="100" format="hh:mm" hourFormat="12" align="CENTER">
+                        <Variant mode="AMBIENT" target="alpha" value="0" />
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" />
+                    </TimeText>
+                    <TimeText x="0" y="0" width="450" height="100" format="hh:mm" hourFormat="12" align="CENTER" alpha="0">
+                        <Variant mode="AMBIENT" target="alpha" value="255" />
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" weight="THIN" />
+                    </TimeText>
+                </DigitalClock>
+                <PartText x="352" y="115" width="50" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="LEFT">
+                        <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="20">
+                            <Template>%s<Parameter expression="[AMPM_STATE] == 1 ? &quot;PM&quot; : &quot;AM&quot;" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </ListOption>
+            <ListOption id="1">
+                <!-- 24h mode -->
+                <DigitalClock x="0" y="75" width="450" height="100">
+                    <TimeText x="0" y="0" width="450" height="100" format="hh:mm" hourFormat="24" align="CENTER">
+                        <Variant mode="AMBIENT" target="alpha" value="0" />
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" />
+                    </TimeText>
+                    <TimeText x="0" y="0" width="450" height="100" format="hh:mm" hourFormat="24" align="CENTER" alpha="0">
+                        <Variant mode="AMBIENT" target="alpha" value="255" />
+                        <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="90" weight="THIN" />
+                    </TimeText>
+                </DigitalClock>
+            </ListOption>
+        </ListConfiguration>
 
         <!-- Date -->
-        <PartText height="24" width="450" x="0" y="198">
+        <PartText height="36" width="450" x="0" y="172">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <Text>
-                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="16">
+                <Font color="#ffffffff" family="SYNC_TO_DEVICE" size="24">
                     <Template>%s %s
                         <Parameter expression="[MONTH_S]" />
                         <Parameter expression="[DAY]" />
@@ -31,107 +63,167 @@
             </Text>
         </PartText>
 
+        <!-- SESSION complication slot (hardcoded) -->
+        <ComplicationSlot
+            slotId="11"
+            x="45" y="205"
+            width="360" height="30"
+            supportedTypes="RANGED_VALUE"
+            isCustomizable="false">
+            <BoundingRect x="0" y="0" width="360" height="30" />
+            <DefaultProviderPolicy
+                primaryProvider="com.damon1974.infowatchface/com.damon1974.infowatchface.wear.SessionComplicationService"
+                primaryProviderType="RANGED_VALUE"
+                defaultSystemProvider="NONE"
+                defaultSystemProviderType="RANGED_VALUE" />
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Complication type="RANGED_VALUE">
+                <PartText height="22" width="30" x="0" y="4">
+                    <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>S</Template></Font></Text>
+                </PartText>
+                <PartDraw height="8" width="260" x="35" y="11">
+                    <Rectangle height="8" width="260" x="0" y="0">
+                        <Fill color="#ff333333" />
+                    </Rectangle>
+                </PartDraw>
+                <PartDraw height="8" width="260" x="35" y="11">
+                    <Transform target="width" value="([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]) * 260" />
+                    <Rectangle height="8" width="260" x="0" y="0">
+                        <Fill color="#ff4ade80" />
+                    </Rectangle>
+                </PartDraw>
+                <PartText height="22" width="55" x="300" y="4">
+                    <Text>
+                        <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13">
+                            <Template>%d<Parameter expression="round([COMPLICATION.RANGED_VALUE_VALUE])" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
 
-        <!-- S label -->
-        <PartText height="22" width="30" x="45" y="232">
+        <!-- WEEKLY complication slot (hardcoded) -->
+        <ComplicationSlot
+            slotId="12"
+            x="45" y="239"
+            width="360" height="30"
+            supportedTypes="RANGED_VALUE"
+            isCustomizable="false">
+            <BoundingRect x="0" y="0" width="360" height="30" />
+            <DefaultProviderPolicy
+                primaryProvider="com.damon1974.infowatchface/com.damon1974.infowatchface.wear.WeeklyComplicationService"
+                primaryProviderType="RANGED_VALUE"
+                defaultSystemProvider="NONE"
+                defaultSystemProviderType="RANGED_VALUE" />
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>S</Template></Font></Text>
+            <Complication type="RANGED_VALUE">
+                <PartText height="22" width="30" x="0" y="4">
+                    <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>W</Template></Font></Text>
+                </PartText>
+                <PartDraw height="8" width="260" x="35" y="11">
+                    <Rectangle height="8" width="260" x="0" y="0">
+                        <Fill color="#ff333333" />
+                    </Rectangle>
+                </PartDraw>
+                <PartDraw height="8" width="260" x="35" y="11">
+                    <Transform target="width" value="([COMPLICATION.RANGED_VALUE_VALUE] - [COMPLICATION.RANGED_VALUE_MIN]) / ([COMPLICATION.RANGED_VALUE_MAX] - [COMPLICATION.RANGED_VALUE_MIN]) * 260" />
+                    <Rectangle height="8" width="260" x="0" y="0">
+                        <Fill color="#ff60a5fa" />
+                    </Rectangle>
+                </PartDraw>
+                <PartText height="22" width="55" x="300" y="4">
+                    <Text>
+                        <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13">
+                            <Template>%d<Parameter expression="round([COMPLICATION.RANGED_VALUE_VALUE])" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- RUST -->
+        <PartText height="20" width="150" x="60" y="268">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="17"><Template>RUST</Template></Font></Text>
         </PartText>
-        <!-- S bar track -->
-        <PartDraw height="8" width="260" x="80" y="239">
+        <ComplicationSlot
+            slotId="15"
+            x="60" y="286"
+            width="150" height="40"
+            supportedTypes="SHORT_TEXT"
+            isCustomizable="false">
+            <BoundingRect x="0" y="0" width="150" height="40" />
+            <DefaultProviderPolicy
+                primaryProvider="com.damon1974.infowatchface/com.damon1974.infowatchface.wear.RustComplicationService"
+                primaryProviderType="SHORT_TEXT"
+                defaultSystemProvider="NONE"
+                defaultSystemProviderType="SHORT_TEXT" />
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="8" width="260" x="0" y="0">
-                <Fill color="#ff333333" />
+            <Complication type="SHORT_TEXT">
+                <PartText height="40" width="150" x="0" y="0">
+                    <Text>
+                        <Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="38">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- MINECRAFT -->
+        <PartText height="20" width="180" x="240" y="268">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="17"><Template>MINECRAFT</Template></Font></Text>
+        </PartText>
+        <ComplicationSlot
+            slotId="14"
+            x="240" y="286"
+            width="180" height="40"
+            supportedTypes="SHORT_TEXT"
+            isCustomizable="false">
+            <BoundingRect x="0" y="0" width="180" height="40" />
+            <DefaultProviderPolicy
+                primaryProvider="com.damon1974.infowatchface/com.damon1974.infowatchface.wear.McComplicationService"
+                primaryProviderType="SHORT_TEXT"
+                defaultSystemProvider="NONE"
+                defaultSystemProviderType="SHORT_TEXT" />
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Complication type="SHORT_TEXT">
+                <PartText height="40" width="180" x="0" y="0">
+                    <Text>
+                        <Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="38">
+                            <Template>%s<Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- Battery: fully native, no complication needed -->
+        <!-- Battery outline -->
+        <PartDraw height="28" width="60" x="195" y="335">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <Rectangle height="28" width="52" x="0" y="0">
+                <Stroke color="#ff888888" thickness="3" />
+            </Rectangle>
+            <Rectangle height="12" width="8" x="52" y="8">
+                <Fill color="#ff888888" />
             </Rectangle>
         </PartDraw>
-        <!-- S bar fill 65% -->
-        <PartDraw height="8" width="169" x="80" y="239">
+        <!-- Green fill bar driven by BATTERY_PERCENT -->
+        <PartDraw height="16" width="44" x="199" y="341">
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="8" width="169" x="0" y="0">
+            <Transform target="width" value="[BATTERY_PERCENT] / 100 * 44" />
+            <Rectangle height="16" width="44" x="0" y="0">
                 <Fill color="#ff4ade80" />
             </Rectangle>
         </PartDraw>
-        <!-- S value -->
-        <PartText height="22" width="50" x="345" y="232">
+        <!-- Battery percentage text -->
+        <PartText height="50" width="174" x="138" y="368">
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13"><Template>65</Template></Font></Text>
-        </PartText>
-
-        <!-- W label -->
-        <PartText height="22" width="30" x="45" y="259">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffffffff" family="SYNC_TO_DEVICE" size="13"><Template>W</Template></Font></Text>
-        </PartText>
-        <!-- W bar track -->
-        <PartDraw height="8" width="260" x="80" y="266">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="8" width="260" x="0" y="0">
-                <Fill color="#ff333333" />
-            </Rectangle>
-        </PartDraw>
-        <!-- W bar fill 33% -->
-        <PartDraw height="8" width="86" x="80" y="266">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="8" width="86" x="0" y="0">
-                <Fill color="#ff60a5fa" />
-            </Rectangle>
-        </PartDraw>
-        <!-- W value -->
-        <PartText height="22" width="50" x="345" y="259">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="13"><Template>33</Template></Font></Text>
-        </PartText>
-
-
-        <!-- RUST -->
-        <PartText height="15" width="120" x="75" y="300">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="10"><Template>RUST</Template></Font></Text>
-        </PartText>
-        <PartText height="26" width="120" x="75" y="314">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="22"><Template>1</Template></Font></Text>
-        </PartText>
-
-        <!-- MINECRAFT -->
-        <PartText height="15" width="160" x="230" y="300">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="10"><Template>MINECRAFT</Template></Font></Text>
-        </PartText>
-        <PartText height="26" width="160" x="230" y="314">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text><Font color="#ff4ade80" family="SYNC_TO_DEVICE" size="22"><Template>1</Template></Font></Text>
-        </PartText>
-
-        <!-- Battery icon body outline - bottom center -->
-        <PartDraw height="14" width="26" x="198" y="370">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="14" width="26" x="0" y="0">
-                <Stroke color="#ff888888" thickness="2" />
-            </Rectangle>
-        </PartDraw>
-        <!-- Battery nub -->
-        <PartDraw height="6" width="4" x="224" y="374">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="6" width="4" x="0" y="0">
-                <Fill color="#ff888888" />
-            </Rectangle>
-        </PartDraw>
-        <!-- Battery fill hardcoded ~50% -->
-        <PartDraw height="10" width="11" x="200" y="372">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Rectangle height="10" width="11" x="0" y="0">
-                <Fill color="#ff888888" />
-            </Rectangle>
-        </PartDraw>
-        <!-- Battery percent -->
-        <PartText height="20" width="60" x="232" y="370">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <Text>
-                <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="16">
-                    <Template>%d
-                        <Parameter expression="round(battery.percent_charged)" />
-                    </Template>
+            <Text align="CENTER">
+                <Font color="#ffaaaaaa" family="SYNC_TO_DEVICE" size="32">
+                    <Template>%d%%<Parameter expression="[BATTERY_PERCENT]" /></Template>
                 </Font>
             </Text>
         </PartText>

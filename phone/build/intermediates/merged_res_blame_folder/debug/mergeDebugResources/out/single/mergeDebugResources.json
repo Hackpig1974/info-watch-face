@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.damon1974.infowatchface.phone-debug-54:/layout_activity_login.xml.flat",
+        "source": "com.damon1974.infowatchface.phone-main-56:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.damon1974.infowatchface.phone-debug-54:/layout_activity_main.xml.flat",
+        "source": "com.damon1974.infowatchface.phone-main-56:/layout/activity_main.xml"
+    }
+]
