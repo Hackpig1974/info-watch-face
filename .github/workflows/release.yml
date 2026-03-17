@@ -29,6 +29,9 @@ jobs:
         run: |
           echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > release.keystore
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build release APKs
         run: ./gradlew :phone:assembleRelease :wear:assembleRelease :watchface:assembleRelease
         env:
