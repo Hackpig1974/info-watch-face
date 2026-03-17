@@ -1,34 +1,90 @@
 # Info Watch Face
 
-A Wear OS watch face for Galaxy Watch Ultra displaying Claude AI usage, server status, and battery — built with Watch Face Format (WFF) XML.
+A Wear OS watch face for Galaxy Watch Ultra displaying real-time data from Claude AI, Minecraft, and Rust game servers — with battery, date, and time.
+
+![Watch Face Preview](docs/preview.png)
 
 ## Features
 
-- Digital time display
-- Date (month/day)
-- Claude API usage bars — Session and Weekly
-- Rust and Minecraft server online/offline status
-- Battery indicator
+- **Claude AI Usage Bars** — Session (S) and Weekly (W) usage meters pulled live from the Claude API
+- **Minecraft Player Count** — Live query to your Java server via the Server List Ping (SLP) protocol
+- **Rust Player Count** — Live query via Steam A2S protocol with challenge-response support
+- **Battery** — Native WFF `BATTERY_PERCENT` data source with animated green fill bar
+- **Time Format Toggle** — Switch between 12h (AM/PM) and 24h via the watch face customization screen
+- **Date** — Month and day display
+- **Ambient Mode** — All elements hidden in ambient for battery efficiency
 
 ## Architecture
 
-- **Watch face**: WFF XML (`res/raw/watchface.xml`) — no Kotlin required
-- **Companion app**: *(coming soon)* — polls Claude API, Minecraft, and Rust endpoints every 10 minutes and pushes data to the watch via Wearable Data Layer API
+Three Android modules:
 
-## Distribution
+| Module | Package | Target | Purpose |
+|--------|---------|--------|---------|
+| `watchface` | `com.damon1974.infowatchface.face` | Watch | WFF XML watch face |
+| `wear` | `com.damon1974.infowatchface` | Watch | Complication services + Data Layer receiver |
+| `phone` | `com.damon1974.infowatchface` | Phone | Claude/MC/Rust polling + Data Layer sender |
 
-Distributed as a signed APK via GitHub Releases. Sideloading required (one-time "Install unknown apps" permission in Android settings).
+> **Note:** `phone` and `wear` share the same `applicationId` — this is required for the Wearable Data Layer API to work.
 
-## Requirements
+## Data Flow
 
-- Wear OS 4+ (API 33)
-- Galaxy Watch Ultra or compatible round Wear OS device
-- Android phone for companion app *(coming soon)*
+```
+Claude API ──┐
+MC Server  ──┼──► Phone App (PollWorker) ──► Data Layer ──► DataLayerListenerService
+Rust Server ─┘                                               │
+                                                             ├──► SessionComplicationService
+                                                             ├──► WeeklyComplicationService
+                                                             ├──► McComplicationService
+                                                             └──► RustComplicationService
+                                                                        │
+                                                               watchface.xml (WFF)
+```
 
-## Development
+## Setup
 
-Built with Android Studio using Watch Face Format. No code — layout is entirely declarative XML.
+### Prerequisites
 
-## Status
+- Android Studio
+- Galaxy Watch Ultra (or Wear OS 4+ device)
+- Samsung Galaxy phone paired via Galaxy Wearable app
+- Claude.ai account (Pro or Team)
 
-Work in progress — static layout complete, companion app data integration pending.
+### Phone App
+
+1. Deploy the `phone` module to your phone
+2. Open the app and tap **Login** — log in to claude.ai in the WebView
+3. Tap **Refresh Now** to push data to the watch
+
+### Watch
+
+1. Deploy the `wear` module to the watch
+2. Deploy the `watchface` module to the watch
+3. Select **Info Watch Face** from the watch face picker
+4. The S/W Claude bars and Minecraft/Rust counts auto-bind — no manual complication assignment needed
+
+### Configuration
+
+Edit these constants in the phone module to point to your servers:
+
+| File | Constant | Default |
+|------|----------|---------|
+| `PollWorker.kt` | Minecraft host | `mcj.thehackpig.com:25565` |
+| `PollWorker.kt` | Rust host/port | `rust.thehackpig.com:28017` |
+
+## Protocols
+
+- **Claude API** — HTTPS to `claude.ai/api` using session cookie from WebView login
+- **Minecraft** — TCP Server List Ping (SLP) protocol on port 25565
+- **Rust** — UDP Steam A2S_INFO with Valve challenge-response on query port
+
+## Development Notes
+
+- `git push` via WSL hangs silently — push from Windows terminal
+- Watch ADB reconnect: run `.\connect-watch.ps1`
+- After changing `applicationId`, uninstall both packages before redeploying
+- WFF `BATTERY_PERCENT` is a native integer data source (0-100), no complication needed
+- Samsung Wear OS only serves `SHORT_TEXT` for `WATCH_BATTERY` system provider, not `RANGED_VALUE`
+
+## License
+
+MIT

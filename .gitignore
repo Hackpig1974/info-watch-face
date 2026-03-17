@@ -14,5 +14,10 @@ local.properties
 *.class
 *.kotlin_module
 
-# Generated
+# Generated build outputs
 /watchface/build
+/phone/build
+/wear/build
+
+# Temp files
+commitmsg.txt
