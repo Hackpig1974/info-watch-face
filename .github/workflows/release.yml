@@ -1,0 +1,53 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > release.keystore
+
+      - name: Build release APKs
+        run: ./gradlew :phone:assembleRelease :wear:assembleRelease :watchface:assembleRelease
+        env:
+          RELEASE_STORE_FILE: ../release.keystore
+          RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+
+      - name: Rename APKs
+        run: |
+          mv phone/build/outputs/apk/release/phone-release.apk info-watch-phone-${{ github.ref_name }}.apk
+          mv wear/build/outputs/apk/release/wear-release.apk info-watch-wear-${{ github.ref_name }}.apk
+          mv watchface/build/outputs/apk/release/watchface-release.apk info-watch-face-${{ github.ref_name }}.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            info-watch-phone-${{ github.ref_name }}.apk
+            info-watch-wear-${{ github.ref_name }}.apk
+            info-watch-face-${{ github.ref_name }}.apk
+          generate_release_notes: true

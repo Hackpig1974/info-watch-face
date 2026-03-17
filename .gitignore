@@ -19,5 +19,9 @@ local.properties
 /phone/build
 /wear/build
 
+# Signing - never commit these
+release.keystore
+gradle.properties
+
 # Temp files
 commitmsg.txt
